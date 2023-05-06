@@ -12,6 +12,8 @@ let button;
 let foo = new p5.Speech();
 let ld;  // for loading the the text files as a list of strings
 let pholder;
+let nslide;
+let nholder;
 
 //let txt;
 
@@ -25,35 +27,47 @@ function preload(){
 
 function setup() {
     noCanvas();
+    nslide = createSlider(1, 10, 5, 1)
+    nslide.changed(makeLM)
     button = createButton("generate")
     button.mouseReleased(markovit)
+    nholder = createP("n = "+nslide.value())
     pholder =createP("OUTPUT")
     
     txt = ld.join(" ")  // convert the list of strings into one big string
     print("bing",txt)
+    makeLM();
   
     
 
-    for (let i=0; i<=txt.length-order; i++){
-      let gram = txt.substring(i,i+order);
-      
-      if(!ngrams[gram]){
-        //when I find a new n gram make an array to be the value of the key
-        ngrams[gram] =[];
-        
-        
-      } 
-      // always push the the character that follows the n gram
-      if (txt.charAt(i+order)===''){ // but if it has no value push a space
-        ngrams[gram].push(' ')
-      }else{
-        ngrams[gram].push(txt.charAt(i+order))
-      }
-      
-
-    }
-    print(ngrams)
+    
   
+}
+
+function makeLM(){
+  order = nslide.value()
+  nholder.html("n = "+nslide.value())
+  print("order",order)
+  for (let i=0; i<=txt.length-order; i++){
+    let gram = txt.substring(i,i+order);
+    
+    if(!ngrams[gram]){
+      //when I find a new n gram make an array to be the value of the key
+      ngrams[gram] =[];
+      
+      
+    } 
+    // always push the the character that follows the n gram
+    if (txt.charAt(i+order)===''){ // but if it has no value push a space
+      ngrams[gram].push(' ')
+    }else{
+      ngrams[gram].push(txt.charAt(i+order))
+    }
+    
+
+  }
+  print("made language model")
+
 }
 
 function markovit(){
