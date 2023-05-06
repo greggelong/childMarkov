@@ -46,7 +46,7 @@ function setup() {
 
 function makeLM(){
   order = nslide.value()
-  nholder.html("n = "+nslide.value())
+  
   print("order",order)
   for (let i=0; i<=txt.length-order; i++){
     let gram = txt.substring(i,i+order);
@@ -67,7 +67,7 @@ function makeLM(){
 
   }
   print("made language model")
-
+  nholder.html("n = "+nslide.value())
 }
 
 function markovit(){
